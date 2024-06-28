@@ -1,5 +1,5 @@
 function getSheet(name) {
-  const SPREADSHEET_ID = '1FmO5CcOkv_dV8OhRBTLOk5gigojqE995q6vf6OUTxtQ' //スプレッドシートのIDをここに入れる
+  const SPREADSHEET_ID = '' //スプレッドシートのIDをここに入れる
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = spreadsheet.getSheetByName(name);
 
