@@ -1,6 +1,6 @@
-const REMO_ACCESS_TOKEN = ''; //remoのアクセストークンをここに入れる,「;」いるかわからん
-
 function getNatureRemoData(endpoint) {
+  const REMO_ACCESS_TOKEN = ''// REMOアクセストークン
+  
   const headers = {
     "Content-Type" : "application/json;",
     'Authorization': 'Bearer ' + REMO_ACCESS_TOKEN,
