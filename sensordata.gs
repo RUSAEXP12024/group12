@@ -54,6 +54,6 @@ function recordSensorData() {
 
 function setSensorData(data, row) {
   getSheet('sensor').getRange(row, 1, 1, 5).setValues([[new Date(), data.te, data.hu, data.il,data.mo_last]])
-  var second = 5//計測間隔
+  var second = 300//計測間隔
   Utilities.sleep(second*1000);
 }
