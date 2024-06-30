@@ -51,6 +51,32 @@ function recordSensorData() {
   }
 }
 
+function updateThresholds(temperatureThreshold, humidityThreshold) {
+  const sheet = getSheet("thresholds");
+
+  // 現在の最終行を取得
+  const lastRow = getLastData("thresholds");
+
+  // 日付と閾値を書き込む
+  sheet.getRange(lastRow + 1, 1, 1, 3).setValues([[new Date(), temperatureThreshold, humidityThreshold]]);
+}
+
+function getTemperatureThreshold() {
+  const sheet = getSheet("thresholds");
+  const lastRow = getLastData("thresholds");
+  const temperatureThreshold = sheet.getRange(lastRow, 2).getValue(); // 2列目が温度基準値の列
+
+  return temperatureThreshold;
+}
+
+function getHumidityThreshold() {
+  const sheet = getSheet("thresholds");
+  const lastRow = getLastData("thresholds");
+  const humidityThreshold = sheet.getRange(lastRow, 3).getValue(); // 3列目が湿度基準値の列
+
+  return humidityThreshold;
+}
+
 
 function setSensorData(data, row) {
   getSheet('sensor').getRange(row, 1, 1, 5).setValues([[new Date(), data.te, data.hu, data.il,data.mo_last]])
