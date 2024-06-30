@@ -38,12 +38,12 @@ function doPost(e) {
     reply_text  = '現在の気温は'+ temp +'℃、湿度は' + humid + '％です。' 
 
     else if (receive_message.startsWith("温度基準値を変更して！")) {
-    const newTemperatureThreshold = receive_message.replace("温度基準値を変更して！", "").trim();
+    const newTemperatureThreshold = receive_message.replace("温度基準値を変更して", "").trim();
     updateThresholds(newTemperatureThreshold, getHumidityThreshold());
 
     reply_text = '温度基準値を' + newTemperatureThreshold + '℃に変更しました。';
   } else if (receive_message.startsWith("湿度基準値を変更して！")) {
-    const newHumidityThreshold = receive_message.replace("湿度基準値を変更して！", "").trim();
+    const newHumidityThreshold = receive_message.replace("湿度基準値を変更して", "").trim();
     updateThresholds(getTemperatureThreshold(), newHumidityThreshold);
 
     reply_text = '湿度基準値を' + newHumidityThreshold + '%に変更しました。';
