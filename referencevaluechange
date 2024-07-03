@@ -1,0 +1,30 @@
+const THRESHOLD_SHEET_NAME = 'referencevalue';
+
+// 基準値を取得する関数
+function getThresholdValues() {
+  const sheet = getSheet(THRESHOLD_SHEET_NAME);
+  const values = sheet.getRange(1, 1, 1, 4).getValues()[0];
+  return {
+    te: values[0],
+    hu: values[1],
+    il: values[2],
+    mo: values[3]
+  };
+}
+
+// 基準値を設定する関数
+function setThresholdValues(te, hu, il, mo) {
+  if (te < 20 || te > 45) {
+    throw new Error('Temperature threshold must be between 20 and 45 degrees.');
+  }
+  if (hu < 0 || hu > 100) {
+    throw new Error('Humidity threshold must be between 0 and 100%.');
+  }
+  const sheet = getSheet(THRESHOLD_SHEET_NAME);
+  sheet.getRange(1, 1, 1, 4).setValues([[te, hu, il, mo]]);
+}
+
+// スプレッドシートの特定のシートを取得する関数
+function getSheet(sheetName) {
+  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+}
