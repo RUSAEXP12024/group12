@@ -1,6 +1,6 @@
 function get_applianceID() {
   var data = getNatureRemoData("appliances");
-  var applianceID ="";
+  var applianceID = "";
 
   data.forEach(function(e) {
     applianceID = e.id;
