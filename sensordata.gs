@@ -11,8 +11,35 @@ function recordSensorData() {
     mo_last:deviceData[0].newest_events.mo.created_at,//人感センサー
   }
   setSensorData(arg, lastSensorData + 1);
-  
+  if(lastSensorData === 2){
+    getSheet('sensor').getRange("F2").setValue(house_last_5);
+  }
+
   const sheet = getSheet("sensor");
+  var mo_l = 'E'+lastSensorData;
+  var mo_l_5 = 'E'+(lastSensorData-1);
+  var mo_l_15 = 'E'+(lastSensorData-3);
+  var house = 'F' +lastSensorData;
+  var house_5 = 'F' +(lastSensorData-1);
+
+  var mo_last = sheet.getRange(mo_l).getValue();
+  var mo_last_5 = sheet.getRange(mo_l_5).getValue();
+  var mo_last_15 = sheet.getRange(mo_l_15).getValue();
+  var house_last_5 = sheet.getRange(house_5).getValue();
+
+
+  if(mo_last === mo_last_5){
+    getSheet('sensor').getRange(house).setValue(house_last_5);
+    }else{
+      if(house_last_5 === 1){
+        getSheet('sensor').getRange(house).setValue(0);
+      }else{
+        getSheet('sensor').getRange(house).setValue(1);
+      }
+    }
+  
+  
+
   const te = 'B'+getLastData("sensor");
   const hu = 'C'+getLastData("sensor");
   const warning_te = 'G1';   //気温の基準値が記録されているセル
@@ -32,24 +59,21 @@ function recordSensorData() {
   }else if(humid >= warning_humid){
     x = x + y;
   }
-    postMessage(x);
+  postMessage(x);
 
-    if(lastSensorData >= 5){
-      const sheet = getSheet("sensor");
-      const mo_l = 'E'+lastSensorData;
-      const mo_l_15 = 'E'+(lastSensorData-3);
-      var mo_last = sheet.getRange(mo_l).getValue();
-      var mo_last_15 = sheet.getRange(mo_l_15).getValue();
+  var house_last = sheet.getRange(house).getValue();
 
-      if(mo_last === mo_last_15){
-        if(Get_AC_state() == 1){
-          let z = '15分以上人感センサーが反応しませんでした。エアコンを消し忘れていませんか？' 
-          postMessage(z);
+  if(mo_last === mo_last_15){
+    if(house_last === 0){
+      if(Get_AC_state() === 1){
+        let z = '15分以上人感センサーが反応しませんでした。エアコンを消し忘れていませんか？' 
+        postMessage(z);
         }
       }
-    }
+    } 
   }
 }
+
 
 function updateThresholds(temperatureThreshold, humidityThreshold) {
   const sheet = getSheet("thresholds");
