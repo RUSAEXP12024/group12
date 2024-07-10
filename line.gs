@@ -46,6 +46,7 @@ function doPost(e) {
         reply_text = "正しい値(20~45)を入力してください";
       } else {
         //スプレッドシートに書き換える処理を入れて
+        updateTemperatureThreshold(num);
         reply_text = "温度の基準値を変更しました。\n変更後の温度基準値：" + String(num) + "℃\n湿度を数字で入力してください(0~100)";
         mode.setProperty('MODE', '湿度基準値変更');
       }
@@ -54,6 +55,7 @@ function doPost(e) {
         reply_text = "正しい値(0~100)を入力してください";
       } else {
         //スプレッドシートに書き換える処理を入れて
+        updateHumidityThreshold(num);
         reply_text = "湿度の基準値を変更しました。\n変更後の湿度基準値：" + String(num) + "％";
         mode.setProperty('MODE', '変更完了');
       }
