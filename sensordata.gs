@@ -1,8 +1,16 @@
 function recordSensorData() {
   const deviceData = getNatureRemoData("devices");//data取得
 
+  let lastSensorData = getLastData("sensor");
+  if(lastSensorData < 2){
+    for(let i = 0; i < 5; i++){
+      getSheet('sensor').getRange(i + 2, 1, 1, 6).setValues([[new Date(), 1, 1, 1, 1, 0]])
+    }
+  }
+
   for (let step = 0; step < 5; step++) 
   {
+    checkSheet();
     let lastSensorData = getLastData("sensor");//最終data取得
     var arg = {
     te:deviceData[0].newest_events.te.val,//温度
@@ -51,7 +59,7 @@ function recordSensorData() {
   var warning_humid = sheet.getRange(warning_hu).getValue();
 
   let x = '現在の気温は'+ temp +'℃、湿度は' + humid + '％です。' 
-  const y = '熱中症のリスクがあります。エアコンをつけることを推奨します。'
+  const y = '基準値を超えました。暑くないですか？'
 
   
   if(temp >= warning_temp){
@@ -73,6 +81,7 @@ function recordSensorData() {
     } 
   }
 }
+
 
 
 function updateThresholds(temperatureThreshold, humidityThreshold) {
