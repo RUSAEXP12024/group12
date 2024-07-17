@@ -1,6 +1,7 @@
+const REMO_ACCESS_TOKEN = ''; //remoのアクセストークンをここに入れる
+//別のモジュールでも使用するので関数の外に出しておく
+
 function getNatureRemoData(endpoint) {
-  const REMO_ACCESS_TOKEN = ''// REMOアクセストークン
-  
   const headers = {
     "Content-Type" : "application/json;",
     'Authorization': 'Bearer ' + REMO_ACCESS_TOKEN,
