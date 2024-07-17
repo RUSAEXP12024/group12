@@ -3,7 +3,12 @@ function get_applianceID() {
   var applianceID = "";
 
   data.forEach(function(e) {
-    applianceID = e.id;
+
+    if(e.nickname == 'エアコン') { //'エアコン'のところは操作したいエアコンのニックネーム
+      applianceID = e.id;
+    }
+
+
   });
 
   Logger.log("%s", applianceID); //動作確認用
