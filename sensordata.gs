@@ -4,14 +4,11 @@ function recordSensorData() {
   let lastSensorData = getLastData("sensor");
   if(lastSensorData < 2){
     for(let i = 0; i < 5; i++){
-      getSheet('sensor').getRange(i + 2, 1, 1, 6).setValues([[new Date(), 1, 1, 1, 1, 0]])
+      getSheet('sensor').getRange(i + 2, 1, 1, 5).setValues([[new Date(), 1, 1, 1, 1]])
     }
   }
 
-  for (let step = 0; step < 5; step++) 
-  {
     checkSheet();
-    let lastSensorData = getLastData("sensor");//最終data取得
     var arg = {
     te:deviceData[0].newest_events.te.val,//温度
     hu:deviceData[0].newest_events.hu.val,//湿度
@@ -25,27 +22,10 @@ function recordSensorData() {
 
   const sheet = getSheet("sensor");
   var mo_l = 'E'+lastSensorData;
-  var mo_l_5 = 'E'+(lastSensorData-1);
   var mo_l_15 = 'E'+(lastSensorData-3);
-  var house = 'F' +lastSensorData;
-  var house_5 = 'F' +(lastSensorData-1);
 
   var mo_last = sheet.getRange(mo_l).getValue();
-  var mo_last_5 = sheet.getRange(mo_l_5).getValue();
   var mo_last_15 = sheet.getRange(mo_l_15).getValue();
-  var house_last_5 = sheet.getRange(house_5).getValue();
-
-
-  if(mo_last === mo_last_5){
-    getSheet('sensor').getRange(house).setValue(house_last_5);
-    }else{
-      if(house_last_5 === 1){
-        getSheet('sensor').getRange(house).setValue(0);
-      }else{
-        getSheet('sensor').getRange(house).setValue(1);
-      }
-    }
-  
   
 
   const te = 'B'+getLastData("sensor");
@@ -59,30 +39,25 @@ function recordSensorData() {
   var warning_humid = sheet.getRange(warning_hu).getValue();
 
   let x = '現在の気温は'+ temp +'℃、湿度は' + humid + '％です。' 
-  const y = '基準値を超えました。暑くないですか？'
 
   
-  if(temp >= warning_temp){
-    x = x + y;
+  if(temp >= warning_temp && humid >= warning_humid){
+    x = x + '気温と湿度の両方の基準値を超えました。';
+  }else if(temp >= warning_temp){
+    x = x + '気温の基準値を超えました。';
   }else if(humid >= warning_humid){
-    x = x + y;
+    x = x + '湿度の基準値を超えました。'
   }
   postMessage(x);
 
-  var house_last = sheet.getRange(house).getValue();
 
-  if(mo_last === mo_last_15){
-    if(house_last === 0){
-      if(Get_AC_state() === 1){
-        let z = '15分以上人感センサーが反応しませんでした。エアコンを消し忘れていませんか？' 
-        postMessage(z);
-        }
-      }
-    } 
+  if(mo_last == mo_last_15){
+    if(Get_AC_state() == 1){
+      let z = '15分以上人感センサーが反応しませんでした。エアコンを消し忘れていませんか？' 
+      postMessage(z);
+    }
   }
 }
-
-
 
 function updateThresholds(temperatureThreshold, humidityThreshold) {
   const sheet = getSheet("thresholds");
